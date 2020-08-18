@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30320.27
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{42759B9B-DC0F-4C8C-8CA0-BD4FF2C57DDE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LView.CMS.Core", "LView.CMS.Core\LView.CMS.Core.csproj", "{351CACAF-FD52-4D6E-98FF-3B34CEA71078}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{351CACAF-FD52-4D6E-98FF-3B34CEA71078}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{351CACAF-FD52-4D6E-98FF-3B34CEA71078}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{351CACAF-FD52-4D6E-98FF-3B34CEA71078}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{351CACAF-FD52-4D6E-98FF-3B34CEA71078}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{351CACAF-FD52-4D6E-98FF-3B34CEA71078} = {42759B9B-DC0F-4C8C-8CA0-BD4FF2C57DDE}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5E503A33-152F-4D46-A7FC-2974AB1B99CF}
+	EndGlobalSection
+EndGlobal
