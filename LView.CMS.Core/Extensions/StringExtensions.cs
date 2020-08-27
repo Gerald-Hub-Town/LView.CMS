@@ -12,5 +12,11 @@ namespace LView.CMS.Core.Extensions
         {
             return string.IsNullOrWhiteSpace(value);
         }
+
+        [DebuggerStepThrough]
+        public static bool IsNullOrEmpty(this string value)
+        {
+            return string.IsNullOrEmpty(value);
+        }
     }
 }

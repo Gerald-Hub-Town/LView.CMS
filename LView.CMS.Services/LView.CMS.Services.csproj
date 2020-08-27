@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LView.CMS.IRepository\LView.CMS.IRepository.csproj" />
+    <ProjectReference Include="..\LView.CMS.IServices\LView.CMS.IServices.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LView.CMS.Core\LView.CMS.Core.csproj" />
+    <ProjectReference Include="..\LView.CMS.Models\LView.CMS.Models.csproj" />
+  </ItemGroup>
+
+</Project>
