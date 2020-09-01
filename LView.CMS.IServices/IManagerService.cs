@@ -43,13 +43,13 @@ namespace LView.CMS.IServices
         /// </summary>
         /// <param name="model">登陆实体</param>
         /// <returns></returns>
-        Task<Manager> SignInAsync(LoginModel model);
+        Task<LMSManager> SignInAsync(LoginModel model);
 
         Task<BaseResult> ChangePasswordAsync(ChangePasswordModel model);
 
-        Task<Manager> GetManagerByIdAsync(int id);
+        Task<LMSManager> GetManagerByIdAsync(int id);
 
-        Task<Manager> GetManagerContainRoleNameByIdAsync(int id);
+        Task<LMSManager> GetManagerContainRoleNameByIdAsync(int id);
 
         Task<BaseResult> UpdateManagerInfoAsync(ChangeInfoModel model);
     }

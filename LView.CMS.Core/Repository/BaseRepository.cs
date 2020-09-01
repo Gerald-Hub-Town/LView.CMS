@@ -44,6 +44,7 @@ namespace LView.CMS.Core.Repository
         #region 异步
         public Task<T> GetAsync(TKey id) => _dbConnection.GetAsync<T>(id);
         public Task<T> GetAsync(string conditions, object parameters = null) => _dbConnection.QueryFirstOrDefaultAsync<T>(conditions, parameters);
+
         public Task<IEnumerable<T>> GetListAsync() => _dbConnection.GetListAsync<T>();
         public Task<IEnumerable<T>> GetListAsync(object whereConditions) => _dbConnection.GetListAsync<T>(whereConditions);
         public Task<IEnumerable<T>> GetListAsync(string conditions, object parameters = null) => _dbConnection.GetListAsync<T>(conditions, parameters);

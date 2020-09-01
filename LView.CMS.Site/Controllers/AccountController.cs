@@ -83,7 +83,7 @@ namespace LView.CMS.Site.Controllers
                 result.ResultCode = ResultCodeAddMsgKeys.SignInPasswordOrUserNameErrorCode;
                 result.ResultMsg = ResultCodeAddMsgKeys.SignInPasswordOrUserNameErrorMsg;
             }
-            else if (manager.IsLock)
+            else if (manager.IsLock==0)
             {
                 result.ResultCode = ResultCodeAddMsgKeys.SignInUserLockedCode;
                 result.ResultMsg = ResultCodeAddMsgKeys.SignInUserLockedMsg;

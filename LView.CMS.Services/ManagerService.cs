@@ -11,6 +11,8 @@ using LView.CMS.ViewModels.Manager;
 using LView.CMS.Core.Extensions;
 using System.Linq;
 using LView.CMS.Core.Helper;
+using LView.CMS.Core;
+using Dapper;
 
 namespace LView.CMS.Services
 {
@@ -32,15 +34,15 @@ namespace LView.CMS.Services
         public async Task<BaseResult> AddOrModifyAsync(ManagerAddOrModifyModel item)
         {
             var result = new BaseResult();
-            Manager manager;
+            LMSManager manager;
             if (item.Id == 0)
             {
                 //TODO ADD
-                manager = _mapper.Map<Manager>(item);
+                manager = _mapper.Map<LMSManager>(item);
                 manager.Password = AESEncryptHelper.Encode(LViewCMSKeys.DefaultPassword, LViewCMSKeys.AesEncryptKeys);
                 manager.LoginCount = 0;
                 manager.AddManagerId = 1;
-                manager.IsDelete = false;
+                manager.IsDelete = 0;
                 manager.AddTime = DateTime.Now;
                 if (await _repository.InsertAsync(manager) > 0)
                 {
@@ -166,13 +168,13 @@ namespace LView.CMS.Services
         /// </summary>
         /// <param name="model">登陆实体</param>
         /// <returns>状态</returns>
-        public async Task<Manager> SignInAsync(LoginModel model)
+        public async Task<LMSManager> SignInAsync(LoginModel model)
         {
             model.Password = AESEncryptHelper.Encode(model.Password.Trim(), LViewCMSKeys.AesEncryptKeys);
             model.UserName = model.UserName.Trim();
-            string conditions = $"select * from {nameof(Manager)} where IsDelete=0 ";//未删除的
-            conditions += $"and (UserName = @UserName or Mobile =@UserName or Email =@UserName) and Password=@Password";
-            var manager = await _repository.GetAsync(conditions, model);
+            string conditions = $"select * from {nameof(LMSManager)} where IsDelete=0 ";//未删除的
+            conditions += $"and (UserName = :UserName or Mobile = :UserName or Email = :UserName) and Password = :Password";
+            var manager = await _repository.GetAsync(conditions, new { UserName = model.UserName, Password = model.Password });
             if (manager != null)
             {
                 manager.LoginLastIp = model.Ip;
@@ -223,13 +225,13 @@ namespace LView.CMS.Services
             return result;
         }
 
-        public async Task<Manager> GetManagerByIdAsync(int id)
+        public async Task<LMSManager> GetManagerByIdAsync(int id)
         {
 
             return await _repository.GetAsync(id);
         }
 
-        public async Task<Manager> GetManagerContainRoleNameByIdAsync(int id)
+        public async Task<LMSManager> GetManagerContainRoleNameByIdAsync(int id)
         {
             return await _repository.GetManagerContainRoleNameByIdAsync(id);
         }

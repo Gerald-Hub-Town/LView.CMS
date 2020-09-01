@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace LView.CMS.Repository
 {
-    public class ManagerRepository : BaseRepository<Manager, Int32>, IManagerRepository
+    public class ManagerRepository : BaseRepository<LMSManager, Int32>, IManagerRepository
     {
         public ManagerRepository(IOptionsSnapshot<DbOption> options)
         {
@@ -99,14 +99,14 @@ namespace LView.CMS.Repository
             });
         }
 
-        public async Task<Manager> GetManagerContainRoleNameByIdAsync(int id)
+        public async Task<LMSManager> GetManagerContainRoleNameByIdAsync(int id)
         {
             string sql = @"SELECT   mr.RoleName, m.Id, m.RoleId, m.UserName, m.Password, m.Avatar, m.NickName, m.Mobile, m.Email, m.LoginCount, 
                 m.LoginLastIp, m.LoginLastTime, m.AddManagerId, m.AddTime, m.ModifyManagerId, m.ModifyTime, m.IsLock, 
                 m.IsDelete, m.Remark
 FROM      Manager AS m INNER JOIN
                 ManagerRole AS mr ON m.RoleId = mr.Id where m.Id=@Id and m.IsDelete=0 ";
-            return await _dbConnection.QueryFirstOrDefaultAsync<Manager>(sql, new
+            return await _dbConnection.QueryFirstOrDefaultAsync<LMSManager>(sql, new
             {
                 Id = id
             });

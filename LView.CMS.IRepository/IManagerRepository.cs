@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace LView.CMS.IRepository
 {
-    public interface IManagerRepository : IBaseRepository<Manager, Int32>
+    public interface IManagerRepository : IBaseRepository<LMSManager, Int32>
     {
         /// <summary>
         /// 逻辑删除返回影响的行数
@@ -64,6 +64,6 @@ namespace LView.CMS.IRepository
         /// <returns></returns>
         Task<int> ChangePasswordByIdAsync(Int32 Id, string Password);
 
-        Task<Manager> GetManagerContainRoleNameByIdAsync(int id);
+        Task<LMSManager> GetManagerContainRoleNameByIdAsync(int id);
     }
 }
