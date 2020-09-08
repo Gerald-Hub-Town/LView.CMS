@@ -84,9 +84,11 @@ namespace LView.CMS.Site.Controllers
             return JsonHelper.ObjectToJson(result);
         }
 
+        [HttpGet]
         public string LoadDataWithParentId([FromQuery] int ParentId = -1)
         {
-            return JsonHelper.ObjectToJson(_service.GetChildListByParentId(ParentId));
+            var result = _service.GetChildListByParentId(ParentId);
+            return JsonHelper.ObjectToJson(result);
         }
     }
 }

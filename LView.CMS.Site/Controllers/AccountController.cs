@@ -11,7 +11,6 @@ using FluentValidation.Results;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
-using LView.CMS.IRepositoryxxx;
 using LView.CMS.IServices;
 using LView.CMS.Core.Extensions;
 using System.IO;
@@ -110,7 +109,7 @@ namespace LView.CMS.Site.Controllers
                     new ClaimsPrincipal(claimsIdentity));
 
                 _httpContextAccessor.HttpContext.Session.SetString("ID", manager.Id);
-                _httpContextAccessor.HttpContext.Session.SetInt32("RoleId", Convert.ToInt32(manager.RoleId));
+                _httpContextAccessor.HttpContext.Session.SetString("RoleId", manager.RoleId);
                 _httpContextAccessor.HttpContext.Session.SetString("NickName", manager.NickName ?? "匿名");
                 _httpContextAccessor.HttpContext.Session.SetString("Email", manager.Email ?? "");
                 _httpContextAccessor.HttpContext.Session.SetString("Avatar", manager.Avatar ?? "/images/GeraldFace.png");

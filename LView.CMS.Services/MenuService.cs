@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using LView.CMS.IRepositoryxxx;
 using LView.CMS.Models;
 using LView.CMS.ViewModels;
 using System.Threading.Tasks;
@@ -173,20 +172,6 @@ namespace LView.CMS.Services
             //return result;
         }
 
-        public void GetChildListByParentId(int ParentId)
-        {
-            //string conditions = "where IsDelete=0 ";//未删除的
-            //if (ParentId >= 0)
-            //{
-            //    conditions += " and ParentId =@ParentId";
-            //}
-            //return _repository.GetList(conditions, new
-            //{
-            //    ParentId = ParentId
-            //}).ToList();
-
-        }
-
         Task<BaseResult> IMenuService.ChangeDisplayStatusAsync(ChangeStatusModel model)
         {
             throw new NotImplementedException();
@@ -197,9 +182,15 @@ namespace LView.CMS.Services
             throw new NotImplementedException();
         }
 
-        List<Menu> IMenuService.GetChildListByParentId(int ParentId)
+        public List<Menu> GetChildListByParentId(int ParentId)
         {
-            throw new NotImplementedException();
+            var sql = new StringBuilder(@"SELECT * FROM MENU");
+            if (ParentId != -1)
+                sql.Append("WHERE PARENTID = :PARENTID");
+
+            var result = _repository.FindList<Menu>(sql.ToString(), new { PARENTID = ParentId });
+
+            return result.ToList();
         }
     }
 }

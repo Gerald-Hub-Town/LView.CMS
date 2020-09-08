@@ -4,9 +4,7 @@ using Autofac.Core;
 using AutoMapper;
 using FluentValidation.AspNetCore;
 using LView.CMS.Core.Options;
-using LView.CMS.IRepositoryxxx;
 using LView.CMS.IServices;
-using LView.CMS.Repository;
 using LView.CMS.Services;
 using LView.CMS.Site.Filter;
 using LView.CMS.Site.Validation;
@@ -104,9 +102,9 @@ namespace LView.CMS.Site
             //builder.RegisterAssemblyTypes(RepositoryAss).Where(x => typeof(ManagerRoleRepository).IsAssignableFrom(x) && x.Name.EndsWith("dll"));
             //builder.RegisterAssemblyTypes(managerRoleAss).Where(x => typeof(ManagerRoleRepository).IsAssignableFrom(x) && x.Name.EndsWith("dll"));
 
-            builder.RegisterAssemblyTypes(typeof(ManagerRoleRepository).Assembly)
-                .Where(t => t.Name.EndsWith("Repository"))
-                .AsImplementedInterfaces();
+            //builder.RegisterAssemblyTypes(typeof(ManagerRoleRepository).Assembly)
+            //    .Where(t => t.Name.EndsWith("Repository"))
+            //    .AsImplementedInterfaces();
             builder.RegisterAssemblyTypes(typeof(ManagerRoleService).Assembly)
                 .Where(t => t.Name.Contains("Service"))
                 .AsImplementedInterfaces();

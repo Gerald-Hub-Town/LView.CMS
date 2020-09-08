@@ -155,10 +155,13 @@ namespace LView.CMS.Services
             {
                 try
                 {
-                    Ids.ToList().ForEach(async x =>
+                    await Task.Run(() =>
                     {
-                        await _repository.DeleteAsync<LMSManager>(p => p.Id == x);
-                        count++;
+                        Ids.ToList().ForEach(async x =>
+                        {
+                            await _repository.DeleteAsync<LMSManager>(p => p.Id == x);
+                            count++;
+                        });
                     });
                 }
                 catch (Exception ex)
@@ -183,10 +186,10 @@ namespace LView.CMS.Services
                 SELECT AA.*, BB.ROLENAME AS ROLENAME
                     FROM LMSMANAGER AA
                 INNER JOIN MANAGERROLE BB
-                    ON AA.ROLEID = BB.ROLEID
+                    ON AA.ROLEID = BB.ID
                 WHERE AA.ISDELETE = :ISDELETE");
             if (!string.IsNullOrEmpty(model.Key))
-                sql.Append($"AND USERNAME LIKE '%{model.Key}%'");
+                sql.Append($" AND USERNAME LIKE '%{model.Key}%'");
             sql.Append(")");
             var (recordList, recordCount) = await _repository.FindListByWithAsync<LMSManager>(sql.ToString(), new { ISDELETE = 0 }, "AA.Id", true, model.Limit, model.Page);
             var viewList = new List<ManagerListModel>();

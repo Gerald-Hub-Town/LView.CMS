@@ -20,7 +20,6 @@
   <ItemGroup>
     <ProjectReference Include="..\LView.CMS.Core\LView.CMS.Core.csproj" />
     <ProjectReference Include="..\LView.CMS.IServices\LView.CMS.IServices.csproj" />
-    <ProjectReference Include="..\LView.CMS.Repository\LView.CMS.Repository.csproj" />
     <ProjectReference Include="..\LView.CMS.Services\LView.CMS.Services.csproj" />
   </ItemGroup>
 

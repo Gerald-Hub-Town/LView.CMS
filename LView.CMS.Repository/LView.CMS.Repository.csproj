@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\LView.CMS.Core\LView.CMS.Core.csproj" />
-    <ProjectReference Include="..\LView.CMS.IRepository\LView.CMS.IRepository.csproj" />
     <ProjectReference Include="..\LView.CMS.Models\LView.CMS.Models.csproj" />
   </ItemGroup>
 

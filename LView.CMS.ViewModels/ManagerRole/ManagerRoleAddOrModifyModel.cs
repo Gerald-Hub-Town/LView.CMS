@@ -9,27 +9,27 @@ namespace LView.CMS.ViewModels
         /// <summary>
         /// 主键
         /// </summary>
-        public Int32 Id { get; set; }
+        public string Id { get; set; }
 
         /// <summary>
         /// 角色名称
         /// </summary>
-        public String RoleName { get; set; }
+        public string RoleName { get; set; }
 
         /// <summary>
-        /// 角色类型1超管2系管
+        /// 角色类型1超管2系管3讲师4学员
         /// </summary>
-        public Int32 RoleType { get; set; }
+        public int RoleId { get; set; }
 
         /// <summary>
         /// 是否系统默认
         /// </summary>
-        public Boolean IsSystem { get; set; }
+        public int IsSystem { get; set; }
 
         /// <summary>
         /// 备注
         /// </summary>
-        public String Remark { get; set; }
+        public string Remark { get; set; }
 
         /// <summary>
         /// 菜单列表

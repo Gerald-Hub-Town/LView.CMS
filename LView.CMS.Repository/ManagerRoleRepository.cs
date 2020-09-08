@@ -13,7 +13,7 @@ using System.Linq;
 
 namespace LView.CMS.Repository
 {
-    public class ManagerRoleRepository : BaseRepository<ManagerRole, Int32>, IManagerRoleRepository
+    public class ManagerRoleRepository : BaseRepository<ManagerRolexxx, Int32>, IManagerRoleRepository
     {
         public ManagerRoleRepository(IOptionsSnapshot<DbOption> options)
         {
@@ -61,7 +61,7 @@ namespace LView.CMS.Repository
         /// </summary>
         /// <param name="model">实体对象</param>
         /// <returns></returns>
-        public int? InsertByTrans(ManagerRole model)
+        public int? InsertByTrans(ManagerRolexxx model)
         {
             int? roleId = 0;
             string insertPermissionSql = @"INSERT INTO RolePermission
@@ -101,7 +101,7 @@ VALUES   (@RoleId,@MenuId, '')";
         /// </summary>
         /// <param name="model">实体对象</param>
         /// <returns></returns>
-        public int UpdateByTrans(ManagerRole model)
+        public int UpdateByTrans(ManagerRolexxx model)
         {
             int result = 0;
             string insertPermissionSql = @"INSERT INTO RolePermission

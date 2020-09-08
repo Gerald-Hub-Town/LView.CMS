@@ -12,7 +12,7 @@ namespace LView.CMS.Models
         public string Id { get; set; }
 
         [Column("ROLEID")]
-        public int RoleId { get; set; }
+        public string RoleId { get; set; }
 
         [Column("MENUID")]
         public string MenuId { get; set; }

@@ -64,6 +64,7 @@ layui.use(['form', 'layer', 'table', 'laytpl'], function () {
                     body.find("#Id").val(edit.Id);
                     body.find(".UserName").val(edit.UserName);
                     body.find(".NickName").val(edit.NickName);
+                    alert(edit.RoleId);
                     body.find(".RoleId").val(edit.RoleId);
                     body.find(".Mobile").val(edit.Mobile);
                     body.find(".Email").val(edit.Email);

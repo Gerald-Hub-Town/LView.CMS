@@ -10,7 +10,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\LView.CMS.IRepository\LView.CMS.IRepository.csproj" />
     <ProjectReference Include="..\LView.CMS.IServices\LView.CMS.IServices.csproj" />
   </ItemGroup>
 

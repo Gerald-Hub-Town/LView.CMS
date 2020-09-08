@@ -46,7 +46,7 @@ namespace LView.CMS.Site.Controllers
         public string getmenu()
         {
             var roleid = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role)?.Value;
-            var list = _managerRoleService.GetMenusByRoleId(Int32.Parse(roleid));
+            var list = _managerRoleService.GetMenusByRoleId(roleid);
             var navviewtree = list.GenerateTree(x => x.Id, x => x.ParentId);
 
             return JsonHelper.ObjectToJson(navviewtree);

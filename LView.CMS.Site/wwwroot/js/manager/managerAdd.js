@@ -4,18 +4,19 @@ layui.use(['form', 'layer'], function () {
         $ = layui.jquery;
 
     form.on("submit(addManager)", function (data) {
+        alert($(".RoleId").val());
         //获取防伪标记
         $.ajax({
             type: 'POST',
             url: '/Manager/AddOrModify/',
             data: {
                 Id: $("#Id").val(),  //主键
-                UserName: $(".UserName").val(), 
-                RoleId: $(".RoleId").val(),  
-                NickName: $(".NickName").val(),  
-                Mobile: $(".Mobile").val(), 
-                Email: $(".Email").val(), 
-                IsLock: $(".IsLock").get(0).checked,  
+                UserName: $(".UserName").val(),
+                RoleId: $(".RoleId").val(),
+                NickName: $(".NickName").val(),
+                Mobile: $(".Mobile").val(),
+                Email: $(".Email").val(),
+                IsLock: $(".IsLock").get(0).checked,
                 Remark: $(".Remark").val()
             },
             dataType: "json",
@@ -25,7 +26,7 @@ layui.use(['form', 'layer'], function () {
             success: function (res) {//res为相应体,function为回调函数
                 var alertIndex;
                 if (res.ResultCode === 0) {
-                     alertIndex = layer.alert(res.ResultMsg, { icon: 1 }, function () {
+                    alertIndex = layer.alert(res.ResultMsg, { icon: 1 }, function () {
                         layer.closeAll("iframe");
                         //刷新父页面
                         parent.location.reload();
@@ -69,5 +70,5 @@ layui.use(['form', 'layer'], function () {
             /^[\S]{6,12}$/
             , '密码必须6到12位，且不能出现空格'
         ]
-    });      
+    });
 });

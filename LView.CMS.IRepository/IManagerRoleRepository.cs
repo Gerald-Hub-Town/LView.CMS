@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace LView.CMS.IRepositoryxxx
 {
-    public interface IManagerRoleRepository : IBaseRepository<ManagerRole, Int32>
+    public interface IManagerRoleRepository : IBaseRepository<ManagerRolexxx, Int32>
     {
         /// <summary>
         /// 逻辑删除返回影响的行数
@@ -40,14 +40,14 @@ namespace LView.CMS.IRepositoryxxx
         /// </summary>
         /// <param name="model">实体对象</param>
         /// <returns></returns>
-        int? InsertByTrans(ManagerRole model);
+        int? InsertByTrans(ManagerRolexxx model);
 
         /// <summary>
         /// 事务修改，并保存关联表数据
         /// </summary>
         /// <param name="model">实体对象</param>
         /// <returns></returns>
-        int UpdateByTrans(ManagerRole model);
+        int UpdateByTrans(ManagerRolexxx model);
 
         /// <summary>
         /// 通过角色ID获取角色分配的菜单列表

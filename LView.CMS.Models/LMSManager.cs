@@ -18,8 +18,7 @@ namespace LView.CMS.Models
         /// </summary>
         [Required]
         [Column("ROLEID")]
-        //[MaxLength(10)]
-        public int RoleId { get; set; }
+        public string RoleId { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.NotMapped]
         public string RoleName { get; set; }

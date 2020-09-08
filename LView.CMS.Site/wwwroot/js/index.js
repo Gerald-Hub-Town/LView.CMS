@@ -41,7 +41,7 @@ layui.use(['bodyTab', 'form', 'element', 'layer', 'jquery'], function () {
         } else {
             $(".mobileTopLevelMenus dd").eq($(this).index()).addClass("layui-this").siblings().removeClass("layui-this");
         }
-        $(".layui-layout-admin").removeClass("showMenu");
+        //$(".layui-layout-admin").removeClass("showMenu");
         $("body").addClass("site-mobile");
         getData($(this).data("menu"));
         //渲染顶部窗口

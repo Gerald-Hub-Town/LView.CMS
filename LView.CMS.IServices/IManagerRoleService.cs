@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using LView.CMS.Models;
 using LView.CMS.ViewModels;
 
@@ -8,14 +9,14 @@ namespace LView.CMS.IServices
 {
     public interface IManagerRoleService
     {
-        TableDataModel LoadData(ManagerRoleRequestModel model);
+        Task<TableDataModel> LoadDataAsync(ManagerRoleRequestModel model);
 
-        BaseResult AddOrModify(ManagerRoleAddOrModifyModel model);
+        Task<BaseResult> AddOrModify(ManagerRoleAddOrModifyModel model);
 
-        BaseResult DeleteIds(int[] roleId);
+        Task<BaseResult> DeleteIdsAsync(string[] Ids);
 
         List<ManagerRole> GetListByCondition(ManagerRoleRequestModel model);
 
-        List<MenuNavView> GetMenusByRoleId(int roleId);
+        List<MenuNavView> GetMenusByRoleId(string roleId);
     }
 }

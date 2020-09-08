@@ -10,6 +10,8 @@ layui.use(['form', 'layer', 'authtree'], function () {
         $ = layui.jquery, authtree = layui.authtree;
 
     form.on("submit(addRole)", function (data) {
+        alert($(".RoleId").val());
+        alert($("input[name='IsSystem']:checked").val());
         //获取防伪标记
         $.ajax({
             type: 'POST',
@@ -17,8 +19,8 @@ layui.use(['form', 'layer', 'authtree'], function () {
             data: {
                 Id: $("#Id").val(),  //主键
                 RoleName: $(".RoleName").val(),  //角色名称
-                RoleType: $(".RoleType").val(),  //角色类型
-                IsSystem: $("input[name='IsSystem']:checked").val() === "0" ? false : true,  //是否系统默认
+                RoleId: $(".RoleId").val(),  //角色类型
+                IsSystem: $("input[name='IsSystem']:checked").val() === "0" ? 0 : 1,  //是否系统默认
                 MenuIds: authtree.getChecked('#yilezhu-auth-tree'),
                 Remark: $(".Remark").val()  //用户简介
             },
@@ -38,11 +40,11 @@ layui.use(['form', 'layer', 'authtree'], function () {
                     });
                     //$("#res").click();//调用重置按钮将表单数据清空
                 } else if (res.ResultCode === 102) {
-                   alertIndex=layer.alert(res.ResultMsg, { icon: 5 }, function () {
+                    alertIndex = layer.alert(res.ResultMsg, { icon: 5 }, function () {
                         layer.closeAll("iframe");
                         //刷新父页面
-                       parent.location.reload();
-                       top.layer.close(alertIndex);
+                        parent.location.reload();
+                        top.layer.close(alertIndex);
 
                     });
                 }

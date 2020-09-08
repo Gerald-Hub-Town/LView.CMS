@@ -7,7 +7,7 @@ using SQLBuilder.Core;
 namespace LView.CMS.Models
 {
     [Table("MANAGERROLE")]
-    public partial class ManagerRole
+    public class ManagerRole
     {
         /// <summary>
         /// 主键
@@ -18,35 +18,30 @@ namespace LView.CMS.Models
         /// <summary>
         /// 角色名称
         /// </summary>
-        [Required]
         [Column("ROLENAME")]
         public string RoleName { get; set; }
 
         /// <summary>
         /// 角色类型1超管2系管
         /// </summary>
-        [Required]
         [Column("ROLEID")]
         public int RoleId { get; set; }
 
         /// <summary>
         /// 是否系统默认
         /// </summary>
-        [Required]
         [Column("ISSYSTEM")]
         public int IsSystem { get; set; }
 
         /// <summary>
         /// 添加人
         /// </summary>
-        [Required]
         [Column("ADDMANAGERID")]
         public string AddManagerId { get; set; }
 
         /// <summary>
         /// 添加时间
         /// </summary>
-        [Required]
         [Column("ADDTIME")]
         public DateTime AddTime { get; set; }
 
@@ -65,15 +60,14 @@ namespace LView.CMS.Models
         /// <summary>
         /// 是否删除
         /// </summary>
-        [Required]
         [Column("ISDELETE")]
-        public Boolean IsDelete { get; set; }
+        public int IsDelete { get; set; }
 
         /// <summary>
         /// 备注
         /// </summary>
         [Column("REMARK")]
-        public String Remark { get; set; }
+        public string Remark { get; set; }
 
     }
 }

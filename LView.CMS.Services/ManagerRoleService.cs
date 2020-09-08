@@ -4,17 +4,16 @@ using System.Text;
 using LView.CMS.IServices;
 using LView.CMS.Models;
 using LView.CMS.ViewModels;
-using LView.CMS.IRepositoryxxx;
 using AutoMapper;
 using System.Linq;
-using LView.CMS.Core.Extensions;
 using SQLBuilder.Core.Repositories;
+using System.Threading.Tasks;
+using LView.CMS.Core.Extensions;
 
 namespace LView.CMS.Services
 {
     public class ManagerRoleService : IManagerRoleService
     {
-        private readonly IManagerRoleRepository _respository;
         private readonly IMapper _mapper;
         private readonly IRepository _repository;
 
@@ -24,17 +23,18 @@ namespace LView.CMS.Services
             _repository = handler(null);
         }
 
-        public BaseResult AddOrModify(ManagerRoleAddOrModifyModel model)
+        public async Task<BaseResult> AddOrModify(ManagerRoleAddOrModifyModel model)
         {
             var result = new BaseResult();
             ManagerRole managerRole;
-            if (model.Id == 0)
+            if (model.Id.IsNullOrWhiteSpace())
             {
-                managerRole = _mapper.Map<ManagerRole>(model);
-                managerRole.AddManagerId = "";
-                managerRole.IsDelete = false;
+                managerRole = model.MapTo<ManagerRole>();
+                managerRole.Id = Guid.NewGuid().ToString();
+                managerRole.AddManagerId = "6345939F-AD8B-46EF-B221-4BB1D83519F3";
+                managerRole.IsDelete = 0;
                 managerRole.AddTime = DateTime.Now;
-                if (_respository.InsertByTrans(managerRole) > 0)
+                if (await _repository.InsertAsync<ManagerRole>(managerRole) > 0)
                 {
                     result.ResultCode = ResultCodeAddMsgKeys.CommonObjectSuccessCode;
                     result.ResultMsg = ResultCodeAddMsgKeys.CommonObjectSuccessMsg;
@@ -47,13 +47,13 @@ namespace LView.CMS.Services
             }
             else
             {
-                managerRole = _respository.Get(model.Id);
+                managerRole = _repository.FindEntity<ManagerRole>(x => x.Id == model.Id);
                 if (managerRole != null)
                 {
-                    _mapper.Map(model, managerRole);
-                    managerRole.ModifyManagerId = "";
+                    managerRole = model.MapTo<ManagerRole>();
+                    managerRole.ModifyManagerId = "6345939F-AD8B-46EF-B221-4BB1D83519F3";
                     managerRole.ModifyTime = DateTime.Now;
-                    if (_respository.UpdateByTrans(managerRole) > 0)
+                    if (_repository.Update<ManagerRole>(managerRole) > 0)
                     {
                         result.ResultCode = ResultCodeAddMsgKeys.CommonObjectSuccessCode;
                         result.ResultMsg = ResultCodeAddMsgKeys.CommonObjectSuccessMsg;
@@ -73,26 +73,38 @@ namespace LView.CMS.Services
             return result;
         }
 
-        public BaseResult DeleteIds(int[] roleId)
+        public async Task<BaseResult> DeleteIdsAsync(string[] Ids)
         {
             var result = new BaseResult();
-            if (roleId.Count() == 0)
+            var count = 0;
+            if (Ids.Count() == 0)
             {
                 result.ResultCode = ResultCodeAddMsgKeys.CommonModelStateInvalidCode;
                 result.ResultMsg = ResultCodeAddMsgKeys.CommonModelStateInvalidMsg;
             }
             else
             {
-                var count = _respository.DeleteLogical(roleId);
+                try
+                {
+                    await Task.Run(() =>
+                    {
+                        Ids.ToList().ForEach(async x =>
+                        {
+                            await _repository.DeleteAsync<ManagerRole>(p => p.Id == x);
+                            count++;
+                        });
+                    });
+                }
+                catch (Exception ex)
+                {
+                    result.ResultCode = ResultCodeAddMsgKeys.CommonExceptionCode;
+                    result.ResultMsg = ResultCodeAddMsgKeys.CommonExceptionMsg;
+                }
+
                 if (count > 0)
                 {
                     result.ResultCode = ResultCodeAddMsgKeys.CommonObjectSuccessCode;
                     result.ResultMsg = ResultCodeAddMsgKeys.CommonObjectSuccessMsg;
-                }
-                else
-                {
-                    result.ResultCode = ResultCodeAddMsgKeys.CommonExceptionCode;
-                    result.ResultMsg = ResultCodeAddMsgKeys.CommonExceptionMsg;
                 }
             }
             return result;
@@ -100,16 +112,7 @@ namespace LView.CMS.Services
 
         public List<ManagerRole> GetListByCondition(ManagerRoleRequestModel model)
         {
-            //string condition = "WHERE ISDELETE = 0";
-            //if (!model.Key.IsNullOrWhiteSpace())
-            //{
-            //    condition += $"AND ROLENAME LIKE '%@KEY%'";
-            //}
-            //return _respository.GetList(condition, new
-            //{
-            //    KEY = model.Key
-            //}).ToList();
-            var sql = new StringBuilder("SELECT * FROM MANAGERROLE WHERE ISDELETE = 1");
+            var sql = new StringBuilder("SELECT * FROM MANAGERROLE WHERE ISDELETE = 0");
             if (!model.Key.IsNullOrWhiteSpace())
             {
                 sql.Append($"AND ROLENAME LIKE '%:ROLENAME%'");
@@ -118,24 +121,25 @@ namespace LView.CMS.Services
             return roleList.ToList();
         }
 
-        public TableDataModel LoadData(ManagerRoleRequestModel model)
+        public async Task<TableDataModel> LoadDataAsync(ManagerRoleRequestModel model)
         {
-            string condition = "WHERE ISDELETE = 0";
-            if (!model.Key.IsNullOrWhiteSpace())
-            {
-                condition += $"AND ROLENAME LIKE '%@KEY%'";
-            }
+            var sql = new StringBuilder($@"
+                WITH T AS(
+                SELECT AA.* 
+                    FROM MANAGERROLE AA
+                WHERE AA.ISDELETE = :ISDELETE");
+            if (!string.IsNullOrEmpty(model.Key))
+                sql.Append($" AND ROLENAME LIKE '%{model.Key}%'");
+            sql.Append(")");
+            var (recordList, recordCount) = await _repository.FindListByWithAsync<ManagerRole>(sql.ToString(), new { ISDELETE = 0 }, "AA.Id", true, model.Limit, model.Page);
             return new TableDataModel
             {
-                count = _respository.RecordCount(condition),
-                data = _respository.GetListPaged(model.Page, model.Limit, condition, "ID DESC", new
-                {
-                    KEY = model.Key
-                }),
+                count = (int)recordCount,
+                data = recordList
             };
         }
 
-        public List<MenuNavView> GetMenusByRoleId(int roleId)
+        public List<MenuNavView> GetMenusByRoleId(string roleId)
         {
             var sql = @"
 SELECT M.ID,

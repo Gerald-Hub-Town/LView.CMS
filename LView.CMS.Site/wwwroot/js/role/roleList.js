@@ -17,22 +17,26 @@ layui.use(['form', 'layer', 'table', 'laytpl'], function () {
         id: "roleListTable",
         cols: [[
             { type: "checkbox", fixed: "left", width: 50 },
-            { field: "Id", title: 'Id', width: 50, align: "center" },
+            //{ field: "Id", title: 'Id', width: 50, align: "center" },
             { field: 'RoleName', title: '角色名称', minWidth: 100, align: "center" },
             {
-                field: 'RoleType', title: '角色类型', minWidth: 150, align: 'center', templet: function (d) {
-                    if (d.RoleType === 1) {
+                field: 'RoleId', title: '角色类型', minWidth: 150, align: 'center', templet: function (d) {
+                    if (d.RoleId === 1) {
                         return "超级管理员";
-                    } else if (d.RoleType === 2) {
+                    } else if (d.RoleId === 2) {
                         return "系统管理员";
+                    } else if (d.RoleId === 3) {
+                        return "讲师";
+                    } else if (d.RoleId === 4) {
+                        return "学员";
                     } else {
-                        return "未知";
+                        return "未知"
                     }
                 }
             },
             {
                 field: 'IsSystem', title: '系统默认', minWidth: 100, align: 'center', templet: function (d) {
-                    return d.IsSystem === true ? "是" : "否";
+                    return d.IsSystem === 0 ? "是" : "否";
                 }
             },
             { field: 'Remark', title: '备注', align: 'center' },
@@ -43,18 +47,18 @@ layui.use(['form', 'layer', 'table', 'laytpl'], function () {
 
     //搜索【此功能需要后台配合，所以暂时没有动态效果演示】
     $(".search_btn").on("click", function () {
-        if ($(".searchVal").val() !== '') {
-            table.reload("roleListTable", {
-                page: {
-                    curr: 1 //重新从第 1 页开始
-                },
-                where: {
-                    key: $(".searchVal").val()  //搜索的关键字
-                }
-            });
-        } else {
-            layer.msg("请输入搜索的内容");
-        }
+        //if ($(".searchVal").val() !== '') {
+        table.reload("roleListTable", {
+            page: {
+                curr: 1 //重新从第 1 页开始
+            },
+            where: {
+                key: $(".searchVal").val()  //搜索的关键字
+            }
+        });
+        //} else {
+        //    layer.msg("请输入搜索的内容");
+        //}
     });
 
     //添加用户
@@ -68,20 +72,24 @@ layui.use(['form', 'layer', 'table', 'laytpl'], function () {
             type: 2,
             anim: 1,
             area: ['600px', '70%'],
-            content: "/ManagerRole/AddOrModify/" + edit.Id,
+            content: "/ManagerRole/AddOrModify/" + edit,
             success: function (layero, index) {
                 var body = layui.layer.getChildFrame('body', index);
                 if (edit) {
                     body.find("#Id").val(edit.Id);  //主键
                     body.find(".RoleName").val(edit.RoleName);  //角色名
-                    body.find(".RoleType").val(edit.RoleType);  //会员等级
-                    if (edit.IsSystem === true) {
+                    body.find(".RoleId").val(edit.RoleId);  //会员等级
+                    if (edit.IsSystem == 0) {
                         body.find(".IsSystem input[value=1]").prop("checked", "checked");  //是否系统默认
                     }
                     else {
                         body.find(".IsSystem input[value=0]").prop("checked", "checked");   //是否系统默认
 
                     }
+                    //if (edit.IsLock == 1)
+                    //    body.find("input:checkbox[name='IsLock']").prop("checked", true);
+                    //else
+                    //    body.find("input:checkbox[name='IsLock']").prop("checked", false);
                     body.find(".Remark").text(edit.Remark);    //角色备注
                     form.render();
 
@@ -115,12 +123,13 @@ layui.use(['form', 'layer', 'table', 'laytpl'], function () {
     table.on('tool(roleList)', function (obj) {
         var layEvent = obj.event,
             data = obj.data;
-
         if (layEvent === 'edit') { //编辑
             addRole(data);
         } else if (layEvent === 'del') { //删除
+            roleId = [];
+            roleId.push(data.Id);
             layer.confirm('确定删除此角色？', { icon: 3, title: '提示信息' }, function (index) {
-                del(data.Id);
+                del(roleId);
             });
         }
     });

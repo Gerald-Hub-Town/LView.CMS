@@ -50,7 +50,7 @@ layui.define(['jquery', 'form'], function (exports) {
             var layfilter = opt.layfilter ? opt.layfilter : 'checkauth';
             opt.layfilter = layfilter;
             // 默认展开全部 配置
-            var openall = opt.openall ? opt.openall : false;
+            var openall = opt.openall ? opt.openall : true;
             opt.openall = openall;
             // 双击展开此层配置
             var dblshow = opt.dblshow ? opt.dblshow : false;
