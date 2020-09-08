@@ -13,21 +13,25 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LView.CMS.Site", "LView.CMS
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Entity", "Entity", "{D2C29053-F2FD-495C-AA91-CA106552FC27}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LView.CMS.Models", "LView.CMS.Models\LView.CMS.Models.csproj", "{DCE98450-26D6-40A0-86CA-8474B9ACBD09}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LView.CMS.Models", "LView.CMS.Models\LView.CMS.Models.csproj", "{DCE98450-26D6-40A0-86CA-8474B9ACBD09}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{BC63D87E-A8CF-4761-B640-D6DCC274C472}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LView.CMS.IServices", "LView.CMS.IServices\LView.CMS.IServices.csproj", "{2B89F5D5-0E36-4BC5-92DC-8FE99D580141}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LView.CMS.IServices", "LView.CMS.IServices\LView.CMS.IServices.csproj", "{2B89F5D5-0E36-4BC5-92DC-8FE99D580141}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LView.CMS.ViewModels", "LView.CMS.ViewModels\LView.CMS.ViewModels.csproj", "{947DFD95-FBCD-467C-AF02-A56C039148A8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LView.CMS.ViewModels", "LView.CMS.ViewModels\LView.CMS.ViewModels.csproj", "{947DFD95-FBCD-467C-AF02-A56C039148A8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LView.CMS.Services", "LView.CMS.Services\LView.CMS.Services.csproj", "{AA6D8617-A5D8-4E8A-ACC8-D99530314E4C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LView.CMS.Services", "LView.CMS.Services\LView.CMS.Services.csproj", "{AA6D8617-A5D8-4E8A-ACC8-D99530314E4C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Repository", "Repository", "{86378A77-56D0-4E93-901D-5977D1750B45}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LView.CMS.IRepository", "LView.CMS.IRepository\LView.CMS.IRepository.csproj", "{3A31AE10-DCD8-4FEC-94E4-121D65291F13}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LView.CMS.IRepository", "LView.CMS.IRepository\LView.CMS.IRepository.csproj", "{3A31AE10-DCD8-4FEC-94E4-121D65291F13}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LView.CMS.Repository", "LView.CMS.Repository\LView.CMS.Repository.csproj", "{C8A59280-B826-4E5C-8BC0-EEC9468B1EE0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LView.CMS.Repository", "LView.CMS.Repository\LView.CMS.Repository.csproj", "{C8A59280-B826-4E5C-8BC0-EEC9468B1EE0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AOPCore", "AOPCore\AOPCore.csproj", "{2F8519AC-FE63-4C80-8A8D-54CE1DE1727C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynamicProxyAOP", "DynamicProxyAOP\DynamicProxyAOP.csproj", "{3BCB9A31-7BD0-45DC-A42B-FFA3A723C7B7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -67,6 +71,14 @@ Global
 		{C8A59280-B826-4E5C-8BC0-EEC9468B1EE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C8A59280-B826-4E5C-8BC0-EEC9468B1EE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C8A59280-B826-4E5C-8BC0-EEC9468B1EE0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F8519AC-FE63-4C80-8A8D-54CE1DE1727C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F8519AC-FE63-4C80-8A8D-54CE1DE1727C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F8519AC-FE63-4C80-8A8D-54CE1DE1727C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F8519AC-FE63-4C80-8A8D-54CE1DE1727C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3BCB9A31-7BD0-45DC-A42B-FFA3A723C7B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3BCB9A31-7BD0-45DC-A42B-FFA3A723C7B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3BCB9A31-7BD0-45DC-A42B-FFA3A723C7B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3BCB9A31-7BD0-45DC-A42B-FFA3A723C7B7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

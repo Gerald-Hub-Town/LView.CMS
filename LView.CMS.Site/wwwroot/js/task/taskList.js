@@ -116,7 +116,7 @@ layui.use(['form', 'layer', 'table', 'laytpl'], function () {
             data: { Ids: ids },
             dataType: "json",
             headers: {
-                "X-CSRF-TOKEN-yilezhu": $("input[name='AntiforgeryKey_yilezhu']").val()
+                "X-CSRF-TOKEN-Gerald": $("input[name='AntiforgeryKey_Gerald']").val()
             },
             success: function (data) {//res为相应体,function为回调函数
                 layer.msg(data.ResultMsg, {
@@ -159,7 +159,7 @@ layui.use(['form', 'layer', 'table', 'laytpl'], function () {
             data: { Ids: ids },
             dataType: "json",
             headers: {
-                "X-CSRF-TOKEN-yilezhu": $("input[name='AntiforgeryKey_yilezhu']").val()
+                "X-CSRF-TOKEN-Gerald": $("input[name='AntiforgeryKey_Gerald']").val()
             },
             success: function (data) {//res为相应体,function为回调函数
                 layer.msg(data.ResultMsg, {
@@ -183,7 +183,7 @@ layui.use(['form', 'layer', 'table', 'laytpl'], function () {
             data: { Id: id },
             dataType: "json",
             headers: {
-                "X-CSRF-TOKEN-yilezhu": $("input[name='AntiforgeryKey_yilezhu']").val()
+                "X-CSRF-TOKEN-Gerald": $("input[name='AntiforgeryKey_Gerald']").val()
             },
             success: function (data) {//res为相应体,function为回调函数
                 layer.msg(data.ResultMsg, {
@@ -230,7 +230,7 @@ layui.use(['form', 'layer', 'table', 'laytpl'], function () {
             data: { Id: id, Status: status },
             dataType: "json",
             headers: {
-                "X-CSRF-TOKEN-yilezhu": $("input[name='AntiforgeryKey_yilezhu']").val()
+                "X-CSRF-TOKEN-Gerald": $("input[name='AntiforgeryKey_Gerald']").val()
             },
             success: function (data) {//res为相应体,function为回调函数
                 layer.msg(data.ResultMsg, {

@@ -11,7 +11,7 @@ using FluentValidation.Results;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
-using LView.CMS.IRepository;
+using LView.CMS.IRepositoryxxx;
 using LView.CMS.IServices;
 using LView.CMS.Core.Extensions;
 using System.IO;
@@ -77,13 +77,14 @@ namespace LView.CMS.Site.Controllers
             #endregion
 
             model.Ip = HttpContext.GetClientUserIp();
+
             var manager = await _service.SignInAsync(model);
             if (manager == null)
             {
                 result.ResultCode = ResultCodeAddMsgKeys.SignInPasswordOrUserNameErrorCode;
                 result.ResultMsg = ResultCodeAddMsgKeys.SignInPasswordOrUserNameErrorMsg;
             }
-            else if (manager.IsLock==0)
+            else if (manager.IsLock == 1)
             {
                 result.ResultCode = ResultCodeAddMsgKeys.SignInUserLockedCode;
                 result.ResultMsg = ResultCodeAddMsgKeys.SignInUserLockedMsg;
@@ -95,19 +96,21 @@ namespace LView.CMS.Site.Controllers
                     new Claim(ClaimTypes.Name, manager.UserName),
                     new Claim(ClaimTypes.Role, manager.RoleId.ToString()),
 
-                    new Claim("Id",manager.Id.ToString()),
+                    new Claim("ID",manager.Id.ToString()),
                     new Claim("LoginCount",manager.LoginCount.ToString()),
                     new Claim("LoginLastIp",manager.LoginLastIp),
                     new Claim("LoginLastTime",manager.LoginLastTime?.ToString("yyyy-MM-dd HH:mm:ss")),
-                };
+                    new Claim("NickName",manager.NickName),
+                    new Claim("Avatar",manager.Avatar),
+            };
                 var claimsIdentity = new ClaimsIdentity(
                     claims, CookieAuthenticationDefaults.AuthenticationScheme);
                 await HttpContext.SignInAsync(
                     CookieAuthenticationDefaults.AuthenticationScheme,
                     new ClaimsPrincipal(claimsIdentity));
 
-                _httpContextAccessor.HttpContext.Session.SetInt32("Id", manager.Id);
-                _httpContextAccessor.HttpContext.Session.SetInt32("RoleId", manager.RoleId);
+                _httpContextAccessor.HttpContext.Session.SetString("ID", manager.Id);
+                _httpContextAccessor.HttpContext.Session.SetInt32("RoleId", Convert.ToInt32(manager.RoleId));
                 _httpContextAccessor.HttpContext.Session.SetString("NickName", manager.NickName ?? "匿名");
                 _httpContextAccessor.HttpContext.Session.SetString("Email", manager.Email ?? "");
                 _httpContextAccessor.HttpContext.Session.SetString("Avatar", manager.Avatar ?? "/images/GeraldFace.png");
@@ -115,7 +118,6 @@ namespace LView.CMS.Site.Controllers
             }
             return JsonHelper.ObjectToJson(result);
         }
-
 
         public async Task<IActionResult> SignOutAsync()
         {

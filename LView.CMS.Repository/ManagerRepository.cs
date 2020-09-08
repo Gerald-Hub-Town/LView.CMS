@@ -2,7 +2,7 @@
 using LView.CMS.Core;
 using LView.CMS.Core.Options;
 using LView.CMS.Core.Repository;
-using LView.CMS.IRepository;
+using LView.CMS.IRepositoryxxx;
 using LView.CMS.Models;
 using Microsoft.Extensions.Options;
 using System;

@@ -2,53 +2,53 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace LView.CMS.ViewModels.Manager
+namespace LView.CMS.ViewModels
 {
     public class ManagerAddOrModifyModel
     {
         /// <summary>
         /// 主键
         /// </summary>
-        public Int32 Id { get; set; }
+        public string Id { get; set; }
 
         /// <summary>
         /// 角色ID
         /// </summary>
-        public Int32 RoleId { get; set; }
+        public int RoleId { get; set; }
 
         /// <summary>
         /// 用户名
         /// </summary>
-        public String UserName { get; set; }
+        public string UserName { get; set; }
 
         /// <summary>
         /// 头像
         /// </summary>
-        public String Avatar { get; set; }
+        public string Avatar { get; set; }
 
         /// <summary>
         /// 用户昵称
         /// </summary>
-        public String NickName { get; set; }
+        public string NickName { get; set; }
 
         /// <summary>
         /// 手机号码
         /// </summary>
-        public String Mobile { get; set; }
+        public string Mobile { get; set; }
 
         /// <summary>
         /// 邮箱地址
         /// </summary>
-        public String Email { get; set; }
+        public string Email { get; set; }
 
         /// <summary>
         /// 是否锁定
         /// </summary>
-        public Boolean IsLock { get; set; }
+        public int IsLock { get; set; }
 
         /// <summary>
         /// 备注
         /// </summary>
-        public String Remark { get; set; }
+        public string Remark { get; set; }
     }
 }

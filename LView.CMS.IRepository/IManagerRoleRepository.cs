@@ -5,7 +5,7 @@ using System.Text;
 using LView.CMS.Models;
 using System.Threading.Tasks;
 
-namespace LView.CMS.IRepository
+namespace LView.CMS.IRepositoryxxx
 {
     public interface IManagerRoleRepository : IBaseRepository<ManagerRole, Int32>
     {

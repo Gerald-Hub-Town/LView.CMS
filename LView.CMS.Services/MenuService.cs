@@ -2,25 +2,33 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using LView.CMS.IRepository;
+using LView.CMS.IRepositoryxxx;
 using LView.CMS.Models;
 using LView.CMS.ViewModels;
 using System.Threading.Tasks;
 using System.Linq;
 using LView.CMS.Core.Extensions;
 using AutoMapper;
+using Microsoft.Extensions.Options;
+using SQLBuilder.Core.Repositories;
+using LView.CMS.Core.Options;
 
 namespace LView.CMS.Services
 {
     public class MenuService : IMenuService
     {
-        private readonly IMenuRepository _repository;
         private readonly IMapper _mapper;
+        private readonly IOptionsSnapshot<DbOption> _option;
+        private readonly IRepository _repository;
 
-        public MenuService(IMenuRepository respository, IMapper mapper)
+        public MenuService(
+            IMapper mapper,
+            IOptionsSnapshot<DbOption> options,
+            Func<string, IRepository> handler)
         {
-            _repository = respository;
+            _repository = handler(null);
             _mapper = mapper;
+            _option = options;
         }
 
         public async Task<BaseResult> AddOrModifyAsync(MenuAddOrModifyModel model)
@@ -30,7 +38,7 @@ namespace LView.CMS.Services
             if (model.Id == 0)
             {
                 menuModel = _mapper.Map<Menu>(model);
-                menuModel.AddManagerId = 1;
+                menuModel.AddManagerId = "";
                 menuModel.IsDelete = false;
                 menuModel.AddTime = DateTime.Now;
                 if (await _repository.InsertAsync(menuModel) > 0)
@@ -47,11 +55,11 @@ namespace LView.CMS.Services
             else
             {
                 //TODO Modify
-                menuModel = await _repository.GetAsync(model.Id);
+                menuModel = await _repository.FindEntityAsync<Menu>(model.Id);
                 if (model != null)
                 {
                     _mapper.Map(model, menuModel);
-                    menuModel.ModifyManagerId = 1;
+                    menuModel.ModifyManagerId = "";
                     menuModel.ModifyTime = DateTime.Now;
                     if (await _repository.UpdateAsync(menuModel) > 0)
                     {
@@ -84,7 +92,7 @@ namespace LView.CMS.Services
             }
             else
             {
-                var count = await _repository.DeleteLogicalAsync(Ids);
+                var count = await _repository.DeleteAsync<Menu>(Ids);
                 if (count > 0)
                 {
                     //成功
@@ -105,47 +113,40 @@ namespace LView.CMS.Services
 
         public TableDataModel LoadData(MenuRequestModel model)
         {
-            string conditions = "where IsDelete=0 ";//未删除的
-            if (!model.Key.IsNullOrWhiteSpace())
-            {
-                conditions += $"and DisplayName like '%@Key%'";
-            }
-
+            var sql = "SELECT * FROM MENU WHERE ISDELETE = 0";
+            var (recordList, recordCount) = _repository.FindListByWith<Menu>(sql, new { }, "ID", true, model.Limit, model.Page);
             return new TableDataModel
             {
-                count = _repository.RecordCount(conditions),
-                data = _repository.GetListPaged(model.Page, model.Limit, conditions, "Id desc", new
-                {
-                    Key = model.Key,
-                }).ToList(),
+                count = (int)recordCount,
+                data = recordList.ToList()
             };
         }
 
-        public async Task<BaseResult> ChangeDisplayStatusAsync(ChangeStatusModel model)
+        public async void ChangeDisplayStatusAsync(ChangeStatusModel model)
         {
-            var result = new BaseResult();
-            //判断状态是否发生变化，没有则修改，有则返回状态已变化无法更改状态的提示
-            var isLock = await _repository.GetDisplayStatusByIdAsync(model.Id);
-            if (isLock == !model.Status)
-            {
-                var count = await _repository.ChangeDisplayStatusByIdAsync(model.Id, model.Status);
-                if (count > 0)
-                {
-                    result.ResultCode = ResultCodeAddMsgKeys.CommonObjectSuccessCode;
-                    result.ResultMsg = ResultCodeAddMsgKeys.CommonObjectSuccessMsg;
-                }
-                else
-                {
-                    result.ResultCode = ResultCodeAddMsgKeys.CommonExceptionCode;
-                    result.ResultMsg = ResultCodeAddMsgKeys.CommonExceptionMsg;
-                }
-            }
-            else
-            {
-                result.ResultCode = ResultCodeAddMsgKeys.CommonDataStatusChangeCode;
-                result.ResultMsg = ResultCodeAddMsgKeys.CommonDataStatusChangeMsg;
-            }
-            return result;
+            //var result = new BaseResult();
+            ////判断状态是否发生变化，没有则修改，有则返回状态已变化无法更改状态的提示
+            //var isLock = await _repository.GetDisplayStatusByIdAsync(model.Id);
+            //if (isLock == !model.Status)
+            //{
+            //    var count = await _repository.ChangeDisplayStatusByIdAsync(model.Id, model.Status);
+            //    if (count > 0)
+            //    {
+            //        result.ResultCode = ResultCodeAddMsgKeys.CommonObjectSuccessCode;
+            //        result.ResultMsg = ResultCodeAddMsgKeys.CommonObjectSuccessMsg;
+            //    }
+            //    else
+            //    {
+            //        result.ResultCode = ResultCodeAddMsgKeys.CommonExceptionCode;
+            //        result.ResultMsg = ResultCodeAddMsgKeys.CommonExceptionMsg;
+            //    }
+            //}
+            //else
+            //{
+            //    result.ResultCode = ResultCodeAddMsgKeys.CommonDataStatusChangeCode;
+            //    result.ResultMsg = ResultCodeAddMsgKeys.CommonDataStatusChangeMsg;
+            //}
+            //return result;
         }
 
         /// <summary>
@@ -153,38 +154,52 @@ namespace LView.CMS.Services
         /// </summary>
         /// <param name="Name"></param>
         /// <returns></returns>
-        public async Task<BooleanResult> IsExistsNameAsync(MenuAddOrModifyModel item)
+        public async void IsExistsNameAsync(MenuAddOrModifyModel item)
         {
-            bool data = false;
-            if (item.Id > 0)
-            {
-                data = await _repository.IsExistsNameAsync(item.Name, item.Id);
-            }
-            else
-            {
-                data = await _repository.IsExistsNameAsync(item.Name);
+            //bool data = false;
+            //if (item.Id > 0)
+            //{
+            //    data = await _repository.IsExistsNameAsync(item.Name, item.Id);
+            //}
+            //else
+            //{
+            //    data = await _repository.IsExistsNameAsync(item.Name);
 
-            }
-            var result = new BooleanResult
-            {
-                Data = data,
-            };
-            return result;
+            //}
+            //var result = new BooleanResult
+            //{
+            //    Data = data,
+            //};
+            //return result;
         }
 
-        public List<Menu> GetChildListByParentId(int ParentId)
+        public void GetChildListByParentId(int ParentId)
         {
-            string conditions = "where IsDelete=0 ";//未删除的
-            if (ParentId >= 0)
-            {
-                conditions += " and ParentId =@ParentId";
-            }
-            return _repository.GetList(conditions, new
-            {
-                ParentId = ParentId
-            }).ToList();
+            //string conditions = "where IsDelete=0 ";//未删除的
+            //if (ParentId >= 0)
+            //{
+            //    conditions += " and ParentId =@ParentId";
+            //}
+            //return _repository.GetList(conditions, new
+            //{
+            //    ParentId = ParentId
+            //}).ToList();
 
         }
 
+        Task<BaseResult> IMenuService.ChangeDisplayStatusAsync(ChangeStatusModel model)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<BooleanResult> IMenuService.IsExistsNameAsync(MenuAddOrModifyModel model)
+        {
+            throw new NotImplementedException();
+        }
+
+        List<Menu> IMenuService.GetChildListByParentId(int ParentId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

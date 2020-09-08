@@ -1,10 +1,12 @@
 ﻿using LView.CMS.Core.Extensions;
 using LView.CMS.Core.Helper;
+using LView.CMS.Core.Models;
 using LView.CMS.IServices;
 using LView.CMS.Site.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Security.Claims;
@@ -24,6 +26,8 @@ namespace LView.CMS.Site.Controllers
 
         public IActionResult Index()
         {
+            ViewData["NickName"] = User.Claims.FirstOrDefault(x => x.Type == "NickName")?.Value;
+            ViewData["Avatar"] = User.Claims.FirstOrDefault(x => x.Type == "Avatar")?.Value;
             return View();
         }
 
@@ -42,7 +46,9 @@ namespace LView.CMS.Site.Controllers
         public string getmenu()
         {
             var roleid = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role)?.Value;
-            var navviewtree = _managerRoleService.GetMenusByRoleId(Int32.Parse(roleid)).GenerateTree(x => x.Id, x => x.ParentId);
+            var list = _managerRoleService.GetMenusByRoleId(Int32.Parse(roleid));
+            var navviewtree = list.GenerateTree(x => x.Id, x => x.ParentId);
+
             return JsonHelper.ObjectToJson(navviewtree);
         }
 

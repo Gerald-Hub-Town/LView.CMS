@@ -4,10 +4,11 @@ using System.Text;
 using LView.CMS.IServices;
 using LView.CMS.Models;
 using LView.CMS.ViewModels;
-using LView.CMS.IRepository;
+using LView.CMS.IRepositoryxxx;
 using AutoMapper;
 using System.Linq;
 using LView.CMS.Core.Extensions;
+using SQLBuilder.Core.Repositories;
 
 namespace LView.CMS.Services
 {
@@ -15,11 +16,12 @@ namespace LView.CMS.Services
     {
         private readonly IManagerRoleRepository _respository;
         private readonly IMapper _mapper;
+        private readonly IRepository _repository;
 
-        public ManagerRoleService(IManagerRoleRepository respository, IMapper mapper)
+        public ManagerRoleService(IMapper mapper, Func<string, IRepository> handler)
         {
-            _respository = respository;
             _mapper = mapper;
+            _repository = handler(null);
         }
 
         public BaseResult AddOrModify(ManagerRoleAddOrModifyModel model)
@@ -29,7 +31,7 @@ namespace LView.CMS.Services
             if (model.Id == 0)
             {
                 managerRole = _mapper.Map<ManagerRole>(model);
-                managerRole.AddManagerId = 1;
+                managerRole.AddManagerId = "";
                 managerRole.IsDelete = false;
                 managerRole.AddTime = DateTime.Now;
                 if (_respository.InsertByTrans(managerRole) > 0)
@@ -49,7 +51,7 @@ namespace LView.CMS.Services
                 if (managerRole != null)
                 {
                     _mapper.Map(model, managerRole);
-                    managerRole.ModifyManagerId = 1;
+                    managerRole.ModifyManagerId = "";
                     managerRole.ModifyTime = DateTime.Now;
                     if (_respository.UpdateByTrans(managerRole) > 0)
                     {
@@ -98,15 +100,22 @@ namespace LView.CMS.Services
 
         public List<ManagerRole> GetListByCondition(ManagerRoleRequestModel model)
         {
-            string condition = "WHERE ISDELETE = 0";
+            //string condition = "WHERE ISDELETE = 0";
+            //if (!model.Key.IsNullOrWhiteSpace())
+            //{
+            //    condition += $"AND ROLENAME LIKE '%@KEY%'";
+            //}
+            //return _respository.GetList(condition, new
+            //{
+            //    KEY = model.Key
+            //}).ToList();
+            var sql = new StringBuilder("SELECT * FROM MANAGERROLE WHERE ISDELETE = 1");
             if (!model.Key.IsNullOrWhiteSpace())
             {
-                condition += $"AND ROLENAME LIKE '%@KEY%'";
+                sql.Append($"AND ROLENAME LIKE '%:ROLENAME%'");
             }
-            return _respository.GetList(condition, new
-            {
-                KEY = model.Key
-            }).ToList();
+            var roleList = _repository.FindList<ManagerRole>(sql.ToString(), new { ROLENAME = model.Key });
+            return roleList.ToList();
         }
 
         public TableDataModel LoadData(ManagerRoleRequestModel model)
@@ -128,18 +137,39 @@ namespace LView.CMS.Services
 
         public List<MenuNavView> GetMenusByRoleId(int roleId)
         {
-            var menuList = _respository.GetMenusByRoleId(roleId);
+            var sql = @"
+SELECT M.ID,
+       M.PARENTID,
+       M.NAME,
+       M.DISPLAYNAME,
+       M.ICONURL,
+       M.LINKURL,
+       M.SORT,
+       RP.PERMISSION,
+       M.ISDISPLAY,
+       M.ISSYSTEM,
+       M.ADDMANAGERID,
+       M.ADDTIME,
+       M.MODIFYMANAGERID,
+       M.MODIFYTIME,
+       M.ISDELETE
+  FROM ROLEPERMISSION RP
+ INNER JOIN MENU M
+    ON RP.MENUID = M.ID
+ WHERE RP.ROLEID = :ROLEID
+   AND M.ISDELETE = 1
+";
+            var menuList = _repository.FindList<Menu>(sql, new { ROLEID = roleId });
             if (menuList?.Count() == 0)
                 return null;
             var menuNavViewList = new List<MenuNavView>();
-            menuList.ForEach(x =>
+            menuList.ToList().ForEach(x =>
             {
-                var navView = _mapper.Map<MenuNavView>(x);
+                //var navView = _mapper.Map<MenuNavView>(x);
+                var navView = x.MapTo<MenuNavView>();
                 menuNavViewList.Add(navView);
             });
             return menuNavViewList;
         }
-
-
     }
 }

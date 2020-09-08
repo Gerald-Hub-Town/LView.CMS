@@ -10,6 +10,6 @@ namespace LView.CMS.ViewModels
         /// Aes加密关键字
         /// </summary>
         public static readonly string AesEncryptKeys = "Gerald";
-        public static readonly string DefaultPassword = "lviewcms123456";
+        public static readonly string DefaultPassword = "luxshareLMS123456";
     }
 }

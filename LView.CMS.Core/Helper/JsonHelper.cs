@@ -12,5 +12,10 @@ namespace LView.CMS.Core.Helper
         {
             return JsonConvert.SerializeObject(obj, new IsoDateTimeConverter { DateTimeFormat = "yyyy-MM-dd HH:MM:SS" });
         }
+
+        public static string ObjectToJSON(object obj)
+        {
+            return JsonConvert.SerializeObject(obj, new IsoDateTimeConverter { DateTimeFormat = "yyyy-MM-dd HH:mm:ss" });
+        }
     }
 }

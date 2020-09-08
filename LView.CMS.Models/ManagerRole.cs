@@ -2,75 +2,77 @@
 using System.Collections.Generic;
 using System.Text;
 using System.ComponentModel.DataAnnotations;
+using SQLBuilder.Core;
 
 namespace LView.CMS.Models
 {
+    [Table("MANAGERROLE")]
     public partial class ManagerRole
     {
         /// <summary>
         /// 主键
         /// </summary>
-        [Key]
-        public Int32 Id { get; set; }
+        [SQLBuilder.Core.Key("ID")]
+        public string Id { get; set; }
 
         /// <summary>
         /// 角色名称
         /// </summary>
         [Required]
-        [MaxLength(64)]
-        public String RoleName { get; set; }
+        [Column("ROLENAME")]
+        public string RoleName { get; set; }
 
         /// <summary>
         /// 角色类型1超管2系管
         /// </summary>
         [Required]
-        [MaxLength(10)]
-        public Int32 RoleType { get; set; }
+        [Column("ROLEID")]
+        public int RoleId { get; set; }
 
         /// <summary>
         /// 是否系统默认
         /// </summary>
         [Required]
-        [MaxLength(1)]
-        public Boolean IsSystem { get; set; }
+        [Column("ISSYSTEM")]
+        public int IsSystem { get; set; }
 
         /// <summary>
         /// 添加人
         /// </summary>
         [Required]
-        [MaxLength(10)]
-        public Int32 AddManagerId { get; set; }
+        [Column("ADDMANAGERID")]
+        public string AddManagerId { get; set; }
 
         /// <summary>
         /// 添加时间
         /// </summary>
         [Required]
-        [MaxLength(23)]
+        [Column("ADDTIME")]
         public DateTime AddTime { get; set; }
 
         /// <summary>
         /// 修改人
         /// </summary>
-        [MaxLength(10)]
-        public Int32? ModifyManagerId { get; set; }
+        [Column("MODIFYMANAGERID")]
+        public string ModifyManagerId { get; set; }
 
         /// <summary>
         /// 修改时间
         /// </summary>
-        [MaxLength(23)]
+        [Column("MODIFYTIME")]
         public DateTime? ModifyTime { get; set; }
 
         /// <summary>
         /// 是否删除
         /// </summary>
         [Required]
-        [MaxLength(1)]
+        [Column("ISDELETE")]
         public Boolean IsDelete { get; set; }
 
         /// <summary>
         /// 备注
         /// </summary>
-        [MaxLength(128)]
+        [Column("REMARK")]
         public String Remark { get; set; }
 
     }

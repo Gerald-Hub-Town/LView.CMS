@@ -9,72 +9,76 @@ namespace LView.CMS.Models
         /// <summary>
 		/// 主键
 		/// </summary>
-        public Int32 Id { get; set; }
+        public string Id { get; set; }
 
         /// <summary>
         /// 角色ID
         /// </summary>
-        public Int32 RoleId { get; set; }
+        public int RoleId { get; set; }
 
         /// <summary>
         /// 角色名称
         /// </summary>
-        public String RoleName { get; set; }
+        public string RoleName { get; set; }
+
+        /// <summary>
+        /// 角色名称
+        /// </summary>
+        //public string RoleName { get; set; }
 
         /// <summary>
         /// 用户名
         /// </summary>
-        public String UserName { get; set; }
+        public string UserName { get; set; }
 
         /// <summary>
         /// 密码
         /// </summary>
-        public String Password { get; set; }
+        public string Password { get; set; }
 
         /// <summary>
         /// 头像
         /// </summary>
-        public String Avatar { get; set; }
+        public string Avatar { get; set; }
 
         /// <summary>
         /// 用户昵称
         /// </summary>
-        public String NickName { get; set; }
+        public string NickName { get; set; }
 
         /// <summary>
         /// 手机号码
         /// </summary>
-        public String Mobile { get; set; }
+        public string Mobile { get; set; }
 
         /// <summary>
         /// 邮箱地址
         /// </summary>
-        public String Email { get; set; }
+        public string Email { get; set; }
 
         /// <summary>
         /// 登录次数
         /// </summary>
-        public Int32? LoginCount { get; set; }
+        public int? LoginCount { get; set; }
 
         /// <summary>
         /// 最后一次登录IP
         /// </summary>
-        public String LoginLastIp { get; set; }
+        public string LoginLastIp { get; set; }
 
         /// <summary>
         /// 最后一次登录时间
         /// </summary>
         public DateTime? LoginLastTime { get; set; }
 
-
         /// <summary>
         /// 是否锁定
         /// </summary>
-        public Boolean IsLock { get; set; }
+        public int IsLock { get; set; }
 
         /// <summary>
         /// 备注
         /// </summary>
-        public String Remark { get; set; }
+        public string Remark { get; set; }
     }
 }

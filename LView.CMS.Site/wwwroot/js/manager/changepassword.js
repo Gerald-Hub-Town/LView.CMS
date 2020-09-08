@@ -44,7 +44,7 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl'], function () {
             data: data.field,
             dataType: "json",
             headers: {
-                "X-CSRF-TOKEN-yilezhu": $("input[name='AntiforgeryKey_yilezhu']").val()
+                "X-CSRF-TOKEN-Gerald": $("input[name='AntiforgeryKey_Gerald']").val()
             },
             success: function (res) {//res为相应体,function为回调函数
                 if (res.ResultCode === 0) {

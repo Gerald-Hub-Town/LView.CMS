@@ -17,6 +17,8 @@ namespace LView.CMS.IServices
         /// <returns></returns>
         Task<TableDataModel> LoadDataAsync(ManagerRequestModel model);
 
+        void TestInsert(LoginModel model);
+
         /// <summary>
         /// 新增或修改服务
         /// </summary>
@@ -24,12 +26,14 @@ namespace LView.CMS.IServices
         /// <returns></returns>
         Task<BaseResult> AddOrModifyAsync(ManagerAddOrModifyModel model);
 
+        Task<LMSManager> GetManagerByCondition(ManagerAddOrModifyModel model);
+
         /// <summary>
         /// 批量删除
         /// </summary>
         /// <param name="Ids">主键Id数组</param>
         /// <returns></returns>
-        Task<BaseResult> DeleteIdsAsync(int[] Ids);
+        Task<BaseResult> DeleteIdsAsync(string[] Ids);
 
         /// <summary>
         /// 修改锁定状态
@@ -47,7 +51,7 @@ namespace LView.CMS.IServices
 
         Task<BaseResult> ChangePasswordAsync(ChangePasswordModel model);
 
-        Task<LMSManager> GetManagerByIdAsync(int id);
+        Task<LMSManager> GetManagerByIdAsync(string id);
 
         Task<LMSManager> GetManagerContainRoleNameByIdAsync(int id);
 

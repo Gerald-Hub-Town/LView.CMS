@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using LView.CMS.Models;
 using LView.CMS.Core.Repository;
 
-namespace LView.CMS.IRepository
+namespace LView.CMS.IRepositoryxxx
 {
     public interface IManagerLogRepository : IBaseRepository<ManagerLog, Int32>
     {

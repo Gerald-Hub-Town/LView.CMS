@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using LView.CMS.Core.Repository;
 using LView.CMS.Models;
 
-namespace LView.CMS.IRepository
+namespace LView.CMS.IRepositoryxxx
 {
     public interface IMenuRepository : IBaseRepository<Menu, Int32>
     {

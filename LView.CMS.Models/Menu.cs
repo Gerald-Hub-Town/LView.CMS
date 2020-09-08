@@ -1,4 +1,5 @@
 ﻿using System;
+using SQLBuilder.Core;
 using System.ComponentModel.DataAnnotations;
 
 namespace LView.CMS.Models
@@ -6,103 +7,97 @@ namespace LView.CMS.Models
     /// <summary>
     /// 后台管理菜单
     /// </summary>
+    [Table("MENU")]
     public class Menu
     {
         /// <summary>
         /// 主键
         /// </summary>
-        [Key]
-        public Int32 Id { get; set; }
+        [SQLBuilder.Core.Key("ID")]
+        public string Id { get; set; }
 
         /// <summary>
         /// 父菜单ID
         /// </summary>
-        [Required]
-        [MaxLength(10)]
-        public Int32 ParentId { get; set; }
+        [Column("PARENTID")]
+        public string ParentId { get; set; }
 
         /// <summary>
         /// 名称
         /// </summary>
-        [Required]
-        [MaxLength(32)]
-        public String Name { get; set; }
+        [Column("NAME")]
+        public string Name { get; set; }
 
         /// <summary>
         /// 显示名称
         /// </summary>
-        [MaxLength(128)]
-        public String DisplayName { get; set; }
+        [Column("DISPLAYNAME")]
+        public string DisplayName { get; set; }
 
         /// <summary>
         /// 图标地址
         /// </summary>
-        [MaxLength(128)]
-        public String IconUrl { get; set; }
+        [Column("ICONURL")]
+        public string IconUrl { get; set; }
 
         /// <summary>
         /// 链接地址
         /// </summary>
-        [MaxLength(128)]
-        public String LinkUrl { get; set; }
+        [Column("LINKURL")]
+        public string LinkUrl { get; set; }
 
         /// <summary>
         /// 排序数字
         /// </summary>
-        [MaxLength(10)]
-        public Int32? Sort { get; set; }
+        [Column("SORT")]
+        public int Sort { get; set; }
 
         /// <summary>
         /// 操作权限（按钮权限时使用）
         /// </summary>
-        [MaxLength(256)]
-        public String Permission { get; set; }
+        [Column("PERMISSION")]
+        public string Permission { get; set; }
 
         /// <summary>
         /// 是否显示
         /// </summary>
-        [Required]
-        [MaxLength(1)]
-        public Boolean IsDisplay { get; set; }
+        [Column("ISDISPLAY")]
+        public int IsDisplay { get; set; }
 
         /// <summary>
         /// 是否系统默认
         /// </summary>
-        [Required]
-        [MaxLength(1)]
-        public Boolean IsSystem { get; set; }
+        [Column("ISSYSTEM")]
+        public int IsSystem { get; set; }
 
         /// <summary>
         /// 添加人
         /// </summary>
-        [Required]
-        [MaxLength(10)]
-        public Int32 AddManagerId { get; set; }
+        [Column("ADDMANAGERID")]
+        public string AddManagerId { get; set; }
 
         /// <summary>
         /// 添加时间
         /// </summary>
-        [Required]
-        [MaxLength(23)]
+        [Column("ADDTIME")]
         public DateTime AddTime { get; set; }
 
         /// <summary>
         /// 修改人
         /// </summary>
-        [MaxLength(10)]
-        public Int32? ModifyManagerId { get; set; }
+        [Column("MODIFYMANAGERID")]
+        public string ModifyManagerId { get; set; }
 
         /// <summary>
         /// 修改时间
         /// </summary>
-        [MaxLength(23)]
+        [Column("MODIFYTIME")]
         public DateTime? ModifyTime { get; set; }
 
         /// <summary>
         /// 是否删除
         /// </summary>
-        [Required]
-        [MaxLength(1)]
+        [Column("ISDELETE")]
         public Boolean IsDelete { get; set; }
     }
 }

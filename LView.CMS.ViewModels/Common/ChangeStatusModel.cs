@@ -9,11 +9,11 @@ namespace LView.CMS.ViewModels
         /// <summary>
         /// 主键
         /// </summary>
-        public Int32 Id { get; set; }
+        public string Id { get; set; }
 
         /// <summary>
         /// 修改后的状态
         /// </summary>
-        public Boolean Status { get; set; }
+        public int Status { get; set; }
     }
 }

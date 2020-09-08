@@ -5,7 +5,7 @@ layui.use(['form', 'layer', 'table', 'laytpl'], function () {
         laytpl = layui.laytpl,
         table = layui.table;
 
-    //角色列表
+    //用户列表
     var tableIns = table.render({
         elem: '#managerList',
         url: '/Manager/LoadData/',
@@ -17,8 +17,8 @@ layui.use(['form', 'layer', 'table', 'laytpl'], function () {
         id: "managerListTable",
         cols: [[
             { type: "checkbox", fixed: "left", width: 50 },
-            { field: "Id", title: 'Id', width: 50, align: "center" },
-            { field: 'UserName', title: '登陆ID', minWidth: 50, align: "center" },
+            //{ field: "Id", title: 'Id', width: 50, align: "center" },
+            { field: 'UserName', title: '用户ID', minWidth: 50, align: "center" },
             { field: 'NickName', title: '用户昵称', minWidth: 50, align: "center" },
             { field: 'Mobile', title: '手机号码', minWidth: 80, align: "center" },
             { field: 'Email', title: '邮箱地址', minWidth: 100, align: "center" },
@@ -31,18 +31,19 @@ layui.use(['form', 'layer', 'table', 'laytpl'], function () {
 
     //搜索【此功能需要后台配合，所以暂时没有动态效果演示】
     $(".search_btn").on("click", function () {
-        if ($(".searchVal").val() !== '') {
-            table.reload("managerListTable", {
-                page: {
-                    curr: 1 //重新从第 1 页开始
-                },
-                where: {
-                    key: $(".searchVal").val()  //搜索的关键字
-                }
-            });
-        } else {
-            layer.msg("请输入搜索的内容");
-        }
+        //if ($(".searchVal").val() !== '') {
+        table.reload("managerListTable", {
+            page: {
+                curr: 1 //重新从第 1 页开始
+            },
+            where: {
+                key: $(".searchVal").val()  //搜索的关键字
+            }
+        });
+        //}
+        //else {
+        //    layer.msg("请输入搜索的内容");
+        //}
     });
 
     //添加用户
@@ -66,7 +67,10 @@ layui.use(['form', 'layer', 'table', 'laytpl'], function () {
                     body.find(".RoleId").val(edit.RoleId);
                     body.find(".Mobile").val(edit.Mobile);
                     body.find(".Email").val(edit.Email);
-                    body.find("input:checkbox[name='IsLock']").prop("checked", edit.IsLock);
+                    if (edit.IsLock == 1)
+                        body.find("input:checkbox[name='IsLock']").prop("checked", true);
+                    else
+                        body.find("input:checkbox[name='IsLock']").prop("checked", false);
                     body.find(".Remark").text(edit.Remark);
                     form.render();
                 }
@@ -103,8 +107,10 @@ layui.use(['form', 'layer', 'table', 'laytpl'], function () {
         if (layEvent === 'edit') { //编辑
             addManager(data);
         } else if (layEvent === 'del') { //删除
+            managerId = [];
+            managerId.push(data.Id);
             layer.confirm('确定删除此用户？', { icon: 3, title: '提示信息' }, function (index) {
-                del(data.Id);
+                del(managerId);
             });
         }
     });
@@ -123,7 +129,10 @@ layui.use(['form', 'layer', 'table', 'laytpl'], function () {
                 layer.close(index);
             }
         }, function (index) {
-            changeLockStatus(data.value, data.elem.checked);
+            var checkedFlag = 0;
+            if (data.elem.checked == true)
+                checkedFlag = 1;
+            changeLockStatus(data.value, checkedFlag);
             layer.close(index);
         }, function (index) {
             data.elem.checked = !data.elem.checked;
@@ -139,7 +148,7 @@ layui.use(['form', 'layer', 'table', 'laytpl'], function () {
             data: { managerId: managerId },
             dataType: "json",
             headers: {
-                "X-CSRF-TOKEN-yilezhu": $("input[name='AntiforgeryKey_yilezhu']").val()
+                "X-CSRF-TOKEN-Gerald": $("input[name='AntiforgeryKey_Gerald']").val()
             },
             success: function (data) {//res为相应体,function为回调函数
                 layer.msg(data.ResultMsg, {
@@ -155,14 +164,14 @@ layui.use(['form', 'layer', 'table', 'laytpl'], function () {
         });
     }
 
-    function changeLockStatus(managerId,status) {
+    function changeLockStatus(managerId, status) {
         $.ajax({
             type: 'POST',
             url: '/Manager/ChangeLockStatus/',
             data: { Id: managerId, Status: status },
             dataType: "json",
             headers: {
-                "X-CSRF-TOKEN-yilezhu": $("input[name='AntiforgeryKey_yilezhu']").val()
+                "X-CSRF-TOKEN-Gerald": $("input[name='AntiforgeryKey_Gerald']").val()
             },
             success: function (data) {//res为相应体,function为回调函数
                 layer.msg(data.ResultMsg, {
@@ -174,8 +183,8 @@ layui.use(['form', 'layer', 'table', 'laytpl'], function () {
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
                 layer.alert('操作失败！！！' + XMLHttpRequest.status + "|" + XMLHttpRequest.readyState + "|" + textStatus, { icon: 5 });
+                tableIns.reload();
             }
         });
     }
-
 });

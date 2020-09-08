@@ -3,7 +3,7 @@ using LView.CMS.Models;
 using System;
 using System.Threading.Tasks;
 
-namespace LView.CMS.IRepository
+namespace LView.CMS.IRepositoryxxx
 {
     public interface IManagerRepository : IBaseRepository<LMSManager, Int32>
     {

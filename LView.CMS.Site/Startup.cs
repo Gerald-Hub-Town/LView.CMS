@@ -4,7 +4,7 @@ using Autofac.Core;
 using AutoMapper;
 using FluentValidation.AspNetCore;
 using LView.CMS.Core.Options;
-using LView.CMS.IRepository;
+using LView.CMS.IRepositoryxxx;
 using LView.CMS.IServices;
 using LView.CMS.Repository;
 using LView.CMS.Services;
@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,6 +22,7 @@ using Microsoft.Extensions.Logging;
 using NLog;
 using NLog.Extensions.Logging;
 using NLog.Web;
+using SQLBuilder.Core;
 using System;
 using System.Linq;
 using System.Reflection;
@@ -48,6 +50,12 @@ namespace LView.CMS.Site
                 options.CheckConsentNeeded = context => false;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
+            services.Configure<ForwardedHeadersOptions>(options =>
+            {
+                options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+                options.KnownNetworks.Clear();
+                options.KnownProxies.Clear();
+            });
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
                 {
@@ -69,8 +77,9 @@ namespace LView.CMS.Site
             services.AddMvc(option =>
             {
                 option.Filters.Add(new GlobalExceptionFilter());
+                option.EnableEndpointRouting = false;
             })
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+                .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
                 .AddControllersAsServices()
                 .AddFluentValidation(fv =>
                 {
@@ -78,6 +87,11 @@ namespace LView.CMS.Site
                     fv.RunDefaultMvcValidationAfterFluentValidationExecutes = false;
                 });
             services.AddAutoMapper();
+            services.AddSQLBuilder(Configuration, "Base", (sql, parameter) =>
+            {
+                //_logger.LogInformation($"SQL语句：{sql}  参数：{parameter.ToJson()}");
+                return null;
+            }, false);
             //services.AddSingleton<IManagerRoleRepository, ManagerRoleRepository>();
             //services.AddSingleton<IManagerRepository, ManagerRepository>();
             //services.AddSingleton<IManagerLogRepository, ManagerLogRepository>();
@@ -96,6 +110,7 @@ namespace LView.CMS.Site
             builder.RegisterAssemblyTypes(typeof(ManagerRoleService).Assembly)
                 .Where(t => t.Name.Contains("Service"))
                 .AsImplementedInterfaces();
+
 
             return new AutofacServiceProvider(builder.Build());
         }
@@ -125,6 +140,7 @@ namespace LView.CMS.Site
             app.UseCookiePolicy();
             app.UseSession();
             app.UseAuthentication();
+            app.UseForwardedHeaders();
             loggerFactory.AddNLog();
 
             app.UseMvc(routes =>

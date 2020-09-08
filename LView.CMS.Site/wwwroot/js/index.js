@@ -1,4 +1,4 @@
-var $,tab,dataStr,layer;
+var $, tab, dataStr, layer;
 layui.config({
     base: "js/"
 }).extend({
@@ -14,6 +14,7 @@ layui.use(['bodyTab', 'form', 'element', 'layer', 'jquery'], function () {
         url: "/Home/GetMenu/" //获取菜单json地址
     });
     tab.render();
+    console.log(tab);
     //通过顶部菜单获取左侧二三级菜单   注：此处只做演示之用，实际开发中通过接口传参的方式获取导航数据
     function getData(json) {
         $.getJSON(tab.tabConfig.url, function (data) {
@@ -21,7 +22,7 @@ layui.use(['bodyTab', 'form', 'element', 'layer', 'jquery'], function () {
                 dataStr = data.contentManagement;
                 //重新渲染左侧菜单
                 tab.render();
-            }else if (json === "systemSettings") {
+            } else if (json === "systemSettings") {
                 dataStr = data.systemSettings;
                 //重新渲染左侧菜单
                 tab.render();
@@ -131,12 +132,12 @@ layui.use(['bodyTab', 'form', 'element', 'layer', 'jquery'], function () {
 });
 
 //打开新窗口
-function addTab(_this){
-	tab.tabAdd(_this);
+function addTab(_this) {
+    tab.tabAdd(_this);
 }
 
 //捐赠弹窗
-function donation(){
+function donation() {
     layer.tab({
         area: ['260px', '380px'],
         tab: [{
@@ -150,8 +151,8 @@ function donation(){
 }
 
 //图片管理弹窗
-function showImg(){
-    $.getJSON('json/images.json', function(json){
+function showImg() {
+    $.getJSON('json/images.json', function (json) {
         var res = json;
         layer.photos({
             photos: res,
